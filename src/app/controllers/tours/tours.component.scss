@@ -1,0 +1,42 @@
+table {
+  width: 100%;
+
+  p.status {
+    border-radius: 25px;
+    padding: 5px 8px;
+    display: inline;
+    font-size: 11px;
+    color: #fff;
+
+    &.pending {
+      background-color: yellow;
+    }
+  } 
+
+  tr.mat-row {
+    &:hover {
+      td {
+        background-color: #eef5fa;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.header-container {
+  mat-label {
+    color: #fff;
+    margin-right: 10px;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    font-weight: bold;
+  }
+
+  .mat-select {
+    font-size: 12px;
+  }
+
+  ::ng-deep .mat-select-value {
+    color: #fff !important;
+  }
+}
