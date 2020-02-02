@@ -9,7 +9,9 @@ $app-accent:  mat-palette($mat-pink, A200, A100, A400);
 $app-theme: mat-light-theme($app-primary, $app-accent);
 @include angular-material-theme($app-theme);
 
-
+.accent-color {
+  color: mat-color($app-accent) !important;
+}
 
 body {
   background-color: #f4f6fa;

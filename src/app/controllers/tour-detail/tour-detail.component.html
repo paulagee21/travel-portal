@@ -21,6 +21,44 @@
       </mat-step>
     </mat-horizontal-stepper>
 
-    <p>{{ tour.destination }}</p>
+    <div class="col-12 basic-info">
+      <div class="row text-left">
+      <mat-divider class="col-12"></mat-divider>
+        <div class="col-6">
+          <h4>
+            <span>Current Location</span>
+            <small class="text-muted">Leave on {{ tour.start_date }}</small>
+          </h4>
+        </div>
+        <div class="col-6 text-right">
+          <h4>
+            <span>{{ tour.destination }}</span>
+            <small class="text-muted">Return on {{ tour.end_date }}</small>
+          </h4>
+        </div>
+      </div>
+      <mat-divider class="col-12"></mat-divider>
+
+      <div class="description">
+        <b>Description</b>
+        <p><small>{{ tour.description }}</small></p>
+      </div>
+
+      <div class="mode">
+        <b>Mode of Transport</b>
+        <p><small>{{ tour.mode }}</small></p>
+      </div>
+
+      <div class="conveyance">
+        <b>Conveyance</b>
+        <p><small>{{ tour.conveyance }}</small></p>
+      </div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <div class="breakdown">
+      asdfa
+    </div>
   </div>
 </div>
