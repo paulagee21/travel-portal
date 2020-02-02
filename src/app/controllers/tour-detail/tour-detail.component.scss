@@ -1,0 +1,26 @@
+.tour-detail {
+  .card {
+    padding: 10px;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+  }
+
+  ::ng-deep .mat-stepper-horizontal {
+    max-width: 750px;
+    width: 100%;
+  }
+
+  ::ng-deep .mat-horizontal-stepper-header {
+    pointer-events: none !important;
+  }
+
+  ::ng-deep .mat-step-header .mat-step-icon-state-done {
+    background-color: #28a745!important;
+  }
+
+  ::ng-deep .mat-step-icon-state-close.mat-step-icon  {
+    background-color: #dc3545!important;
+  }
+}

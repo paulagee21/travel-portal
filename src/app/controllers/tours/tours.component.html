@@ -12,16 +12,16 @@
           <mat-form-field>
             <mat-select [(value)]="selectedStatusFilter" (selectionChange)="filterTours()">
               <mat-option value="All">All</mat-option>
-              <mat-option value="Draft">Draft</mat-option>
-              <mat-option value="Pending">Pending</mat-option>
-              <mat-option value="Approved">Approved</mat-option>
-              <mat-option value="Rejected">Rejected</mat-option>
-              <mat-option value="Requesting Information">Requesting Information</mat-option>
+              <mat-option class="text-primary" value="Draft">Draft</mat-option>
+              <mat-option class="text-warning" value="Pending">Pending</mat-option>
+              <mat-option class="text-success" value="Approved">Approved</mat-option>
+              <mat-option class="text-danger" value="Rejected">Rejected</mat-option>
+              <mat-option class="text-muted" value="Requesting Information">Requesting Information</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
         <div class="button-wrapper">
-          <button mat-button color="primary" routerLink="add">
+          <button mat-raised-button color="primary" routerLink="add">
             <mat-icon matPrefix>add</mat-icon> add tour
           </button>
         </div>
@@ -32,10 +32,10 @@
 
 <div class="container">
   <div class="card row">
-    <table mat-table [dataSource]="toursFiltered">
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let tour"> {{ tour.name }} </td>
+    <table mat-table [dataSource]="toursFiltered" multiTemplateDataRows>
+      <ng-container matColumnDef="destination">
+        <th mat-header-cell *matHeaderCellDef> Destination </th>
+        <td mat-cell *matCellDef="let tour"> {{ tour.destination }} </td>
       </ng-container>
 
       <ng-container matColumnDef="start_date">
@@ -55,8 +55,8 @@
         </td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayColumns" [routerLink]="'/tours/'+row.id"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let tour; columns: displayColumns" (click)="viewTourDetail(tour)"></tr>
     </table>
   </div>
 </div>

@@ -1,0 +1,21 @@
+.navbar {
+  background: transparent linear-gradient(135deg, #e05575 0%, #725ade 100%) 0% 0% no-repeat padding-box;
+  padding: 10px 0;
+
+  h4, p {
+    margin: 0;
+    color: #fff;
+  }
+
+  h4 {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+  }
+  p {
+    font-size: 12px;
+    vertical-align: middle;
+    line-height: 23px;
+  }
+}

@@ -1,0 +1,20 @@
+<div class="tour-detail-modal">
+  <p class="title">
+    {{ data.destination }}
+    <span class="status" [ngClass]="{ 'bg-warning': data.status === 'pending',
+      'bg-success': data.status === 'approved', 'bg-danger': data.status === 'rejected' }">
+      {{ data.status }}
+    </span>
+    <small>Created by {{ data.created_by }}, on {{ data.created_at }}</small> 
+  </p>
+  <p class="text-muted"><small>{{ data.description }}</small></p>
+  <p class="text-muted"><small>Travel period: from <b>{{ data.start_date }}</b> to <b>{{ data.end_date }}.</b></small></p>
+  <p>
+    <button mat-raised-button color="primary" routerLink="/tours/{{ data.id }}" (click)="dialogRef.close()">
+      <mat-icon matPrefix>remove_red_eye</mat-icon> view more info
+    </button>
+    <button mat-raised-button color="accent" [routerLink]="['tours', data.id, 'edit']" (click)="dialogRef.close()">
+      <mat-icon matPrefix>edit</mat-icon> edit 
+    </button>
+  </p>
+</div>

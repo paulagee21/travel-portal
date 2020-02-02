@@ -1,11 +1,22 @@
+@import '~@angular/material/theming';
+@include mat-core();
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 @import "./assets/css/bootstrap.min.css";
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import "./assets/css/fonts.css";
+
+$app-primary: mat-palette($mat-deep-purple);
+$app-accent:  mat-palette($mat-pink, A200, A100, A400);
+$app-theme: mat-light-theme($app-primary, $app-accent);
+@include angular-material-theme($app-theme);
+
+
 
 body {
   background-color: #f4f6fa;
   font-family: 'Open Sans';
+  height: 100%;
+  padding-bottom: 60px;
+
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Roboto';
   }
@@ -13,6 +24,35 @@ body {
   button {
     border: 0 !important;
     outline: none !important;
+  }
+
+  .container {
+    max-width: 1000px;
+    padding-left: 5px 15px;
+
+    .row {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  .tour-detail, .add-edit {
+    margin-top: 30px;
+
+    .header {
+      justify-content: space-between;
+
+      a {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        padding-bottom: 8px;
+        font-size: 14px;
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
   }
 
   .card {
@@ -25,7 +65,7 @@ body {
       padding: 10px;
 
       .mat-form-field {
-        padding-top: 20px;
+        padding-top: 30px;
       }
     }
   }
@@ -47,40 +87,34 @@ body {
   }
   .mat-button.mat-primary {
     background: transparent linear-gradient(135deg,#e05575 0%, #725ade 100%) 0% 0% no-repeat padding-box;
-    color: #ffffff;
+    color: #fff;
+  }
+
+  .mat-dialog-container {
+    border-top: 3px solid #673ab7;
   }
 
   .header-container {
-    background: transparent linear-gradient(135deg, #e05575 0%, #725ade 100%) 0% 0% no-repeat padding-box;
-    padding: 50px 0;
-    margin-bottom: -40px;
-    color: #fff;
-    /*min-height: 194px;*/
+    padding: 20px 0;
+    background-color: #fff;
+    margin-bottom: 40px;
+    box-shadow: 0px 1px 6px #495C6F22;
 
     .d-flex {
       width: 100%;
     }
 
     h3 {
-      color: #fff;
-      font-weight: bold;
-      letter-spacing: 0.1rem;
-      font-size: 34px;
-      margin-bottom: 2px;
+      font-weight: 300;
+      letter-spacing: 0.5px;
+      font-size: 30px;
+      margin-bottom: 0px;
     }
 
     .d-flex .button-wrapper {
       display: flex;
       flex-direction: column;
       justify-content: center;
-    }
-
-    .mat-button {
-      text-transform: uppercase;
-      border-radius: 50px;
-      box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
-      background: #fff;
-      color: #ff4c86;
     }
   }
 }

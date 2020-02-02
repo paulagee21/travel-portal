@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { TourService } from 'src/app/services/tour.service';
+import { MatDialog } from '@angular/material';
+import { TourDetailModalComponent } from 'src/app/components/modals/tour-detail-modal/tour-detail-modal.component';
 
 @Component({
   selector: 'app-tours',
@@ -10,11 +12,14 @@ import { TourService } from 'src/app/services/tour.service';
 export class ToursComponent implements OnInit {
 
   selectedStatusFilter = 'All';
-  displayColumns = ['name', 'start_date', 'end_date', 'status'];
+  displayColumns = ['destination', 'start_date', 'end_date', 'status'];
   tours = [];
   toursFiltered = [];
 
-  constructor(private tourService: TourService) { }
+  constructor(
+    private tourService: TourService,
+    private dialog: MatDialog,
+  ) { }
 
   ngOnInit() {
     this.tours = this.tourService.getAll();
@@ -32,6 +37,10 @@ export class ToursComponent implements OnInit {
     } else {
       this.toursFiltered = this.tours;
     }
+  }
+
+  viewTourDetail(tour) {
+    this.dialog.open(TourDetailModalComponent, { width: '500px',  data: tour });
   }
 
 }
