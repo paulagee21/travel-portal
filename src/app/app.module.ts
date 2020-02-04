@@ -8,6 +8,7 @@ import {
   MatDatepickerModule,
   MatNativeDateModule,
   MatDialogModule,
+  MatExpansionModule,
   MatFormFieldModule,
   MatInputModule,
   MatSnackBarModule,
@@ -18,6 +19,7 @@ import {
   MatSelectModule,
   MatDividerModule,
   MatStepperModule,
+  MAT_DATE_LOCALE,
 } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -28,6 +30,9 @@ import { AddEditTourComponent } from './controllers/add-edit-tour/add-edit-tour.
 import { TourDetailComponent } from './controllers/tour-detail/tour-detail.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { TourDetailModalComponent } from './components/modals/tour-detail-modal/tour-detail-modal.component';
+import { FilePickerModule } from 'ngx-awesome-uploader';
+import { PreviewTourModalComponent } from './components/modals/preview-tour-modal/preview-tour-modal.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -37,18 +42,24 @@ import { TourDetailModalComponent } from './components/modals/tour-detail-modal/
     AddEditTourComponent,
     TourDetailComponent,
     NavbarComponent,
-    TourDetailModalComponent
+    TourDetailModalComponent,
+    PreviewTourModalComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+
+    FilePickerModule,
 
     /* ANGULAR MATERIAL */
     MatButtonModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MatDividerModule,
+    MatExpansionModule,
     MatIconModule,
     MatInputModule,
     MatFormFieldModule,
@@ -60,9 +71,16 @@ import { TourDetailModalComponent } from './components/modals/tour-detail-modal/
     {
       provide: STEPPER_GLOBAL_OPTIONS,
       useValue: { displayDefaultIndicatorType: false }
-    }
+    },
+    {
+      provide: MAT_DATE_LOCALE,
+      useValue: 'en-GB'
+    },
   ],
-  entryComponents: [TourDetailModalComponent],
+  entryComponents: [
+    TourDetailModalComponent, 
+    PreviewTourModalComponent,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

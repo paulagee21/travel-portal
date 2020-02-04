@@ -1,0 +1,86 @@
+<div class="preview-tour-modal">
+  <div class="row">
+    <table class="col-12 table table-borderless">
+      <tr>
+        <th colspan="2">Basic Information</th>
+      </tr>
+
+      <tr>
+        <td><span class="label">Destination</span></td>
+        <td>{{ data.destination }}</td>
+      </tr>
+
+      <tr>
+        <td><span class="label">Description</span></td>
+        <td>{{ data.description }}</td>
+      </tr>
+
+      <tr>
+        <td><span class="label">Start Date</span> {{ moment(data.startDate).format('MMM D, YYYY') }}</td>
+        <td><span class="label">End Date</span> {{ moment(data.endDate).format('MMM D, YYYY') }}</td>
+      </tr>
+
+      <tr>
+        <td><span class="label">Mode of Travel</span></td>
+        <td>{{ data.mode }}</td>
+      </tr>
+
+      <tr>
+        <td><span class="label">Local Conveyance</span></td>
+        <td>{{ data.conveyance }}</td>
+      </tr>
+
+      <tr>
+        <td colspan="2">
+          <mat-divider class="col-12"></mat-divider>
+        </td>
+      </tr>
+
+      <tr>
+        <th colspan="2">Cost Breakdown</th>
+      </tr>
+
+      <tr>
+        <td><span class="label">Hotel</span></td>
+        <td>{{ data.hotel }}</td>
+      </tr>
+
+      <tr>
+        <td><span class="label">Ticket</span></td>
+        <td>{{ data.ticket }}</td>
+      </tr>
+
+      <tr>
+        <td><span class="label">Airport Cab at Home</span></td>
+        <td>{{ data.cabAtHome }}</td>
+      </tr>
+
+      <tr>
+        <td><span class="label">Airport Cab at Destination</span></td>
+        <td>{{ data.cabAtDestination }}</td>
+      </tr>
+
+      <ng-template *ngIf="data.supportingDocuments">
+        <tr>
+          <td colspan="2">
+            <mat-divider class="col-12"></mat-divider>
+          </td>
+        </tr>
+
+        <tr>
+          <th colspan="2">Supporting Documents</th>
+        </tr>
+
+        <tr *ngFor="let doc of data.supportingDocuments">
+          <td><img [src]="doc.image"></td>
+          <td>{{ doc.description }}</td>
+        </tr>
+      </ng-template>
+    </table>
+
+    <div class="col-12 text-center">
+      <button type="button" mat-flat-button class="bg-light" (click)="closeDialog()">Cancel</button>
+      <button type="button" mat-flat-button color="accent" (click)="save()">Save</button>
+    </div>
+  </div>
+</div>

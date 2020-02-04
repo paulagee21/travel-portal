@@ -5,69 +5,172 @@
       <mat-icon matPrefix>keyboard_backspace</mat-icon> go back
     </a>
   </div>
+  <div class="row">
+    <form class="col-12" [formGroup]="tourForm">
+      <mat-expansion-panel [expanded]="activePanel===1" [disabled]="progress===1" class="basic-info">
+        <mat-expansion-panel-header (click)="expandPanel(1)">
+          <mat-panel-title>
+            <h5>1. Basic Information</h5>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        
+        <mat-form-field floatLabel="always" class="col-12">
+          <mat-label>Destination</mat-label>
+          <input type="text" name="destination" matInput formControlName="destination">
+          <mat-hint align="start">Enter the destination.</mat-hint>
+        </mat-form-field>
 
-  <div class="card row">
-    <form class="row col-12">
-      <h5>Basic Information</h5>
+        <mat-form-field floatLabel="always" class="col-12">
+          <mat-label>Description</mat-label>
+          <textarea matInput rows="5" formControlName="description"></textarea>
+          <mat-hint align="start">Enter a short description of the tour.</mat-hint>
+        </mat-form-field>
 
-      <mat-form-field floatLabel="always" class="col-12">
-        <mat-label>Destination</mat-label>
-        <input type="text" name="destination" matInput>
-        <mat-hint align="start">Enter the destination.</mat-hint>
-      </mat-form-field>
+        <mat-form-field floatLabel="always" class="col-6">
+          <mat-label>Start Date</mat-label>
+          <input matInput [matDatepicker]="startDatepicker" formControlName="startDate">
+          <mat-hint align="start">Enter the start date of the tour.</mat-hint>
+          <mat-datepicker-toggle matSuffix [for]="startDatepicker"></mat-datepicker-toggle>
+          <mat-datepicker #startDatepicker></mat-datepicker>
+        </mat-form-field>   
 
-      <mat-form-field floatLabel="always" class="col-12">
-        <mat-label>Description</mat-label>
-        <textarea matInput rows="5"></textarea>
-        <mat-hint align="start">Enter a short description of the tour.</mat-hint>
-      </mat-form-field>
+        <mat-form-field floatLabel="always" class="col-6">
+          <mat-label>End Date</mat-label>
+          <input matInput [matDatepicker]="endDatepicker" formControlName="endDate">
+          <mat-hint align="start">Enter the start date of the tour.</mat-hint>
+          <mat-datepicker-toggle matSuffix [for]="endDatepicker"></mat-datepicker-toggle>
+          <mat-datepicker #endDatepicker></mat-datepicker>
+        </mat-form-field>   
 
-      <mat-form-field floatLabel="always" class="col-6">
-        <mat-label>Start Date</mat-label>
-        <input matInput [matDatepicker]="startDatepicker">
-        <mat-hint align="start">Enter the start date of the tour.</mat-hint>
-        <mat-datepicker-toggle matSuffix [for]="startDatepicker"></mat-datepicker-toggle>
-        <mat-datepicker #startDatepicker></mat-datepicker>
-      </mat-form-field>   
+        <mat-form-field floatLabel="always" class="col-12">
+          <mat-label>Mode of Travel</mat-label>
+          <mat-select formControlName="mode">
+            <mat-option value="Airplane">Airplane</mat-option>
+            <mat-option value="Ship">Ship</mat-option>
+            <mat-option value="Railway">Railway</mat-option>
+          </mat-select>
+          <mat-hint align="start">Select the mode of travel.</mat-hint>
+        </mat-form-field>
 
-      <mat-form-field floatLabel="always" class="col-6">
-        <mat-label>End Date</mat-label>
-        <input matInput [matDatepicker]="endDatepicker">
-        <mat-hint align="start">Enter the start date of the tour.</mat-hint>
-        <mat-datepicker-toggle matSuffix [for]="endDatepicker"></mat-datepicker-toggle>
-        <mat-datepicker #endDatepicker></mat-datepicker>
-      </mat-form-field>   
+        <mat-form-field floatLabel="always" class="col-12">
+          <mat-label>Local Conveyance</mat-label>
+          <input type="text" name="conveyance" matInput formControlName="conveyance">
+          <mat-hint align="start">Enter the local conveyance at the destination.</mat-hint>
+        </mat-form-field>
 
-      <mat-form-field floatLabel="always" class="col-12">
-        <mat-label>Mode of Travel</mat-label>
-        <mat-select>
-          <mat-option value="Airplane">Airplane</mat-option>
-          <mat-option value="Ship">Ship</mat-option>
-          <mat-option value="Railway">Railway</mat-option>
-        </mat-select>
-        <mat-hint align="start">Select the mode of travel.</mat-hint>
-      </mat-form-field>
+        <div class="button-wrapper" *ngIf="progress===1">
+          <button type="button" mat-flat-button class="bg-light">Cancel</button>
+          <button type="button" mat-flat-button color="accent" (click)="nextStep()">Next</button>
+        </div>
+      </mat-expansion-panel>
 
-      <mat-form-field floatLabel="always" class="col-12">
-        <mat-label>Local Conveyance</mat-label>
-        <input type="text" name="conveyance" matInput>
-        <mat-hint align="start">Enter the local conveyance at the destination.</mat-hint>
-      </mat-form-field>
 
-      <mat-divider></mat-divider>
+      <mat-expansion-panel [expanded]="activePanel===2" [disabled]="progress<2" class="cost-breakdown">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <h5>2. Cost Breakdown</h5>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <table class="table" class="col-12">
+          <tr>
+            <td>Hotel</td>
+            <td class="text-right">
+              <mat-label>&#8369;</mat-label>
+              <mat-form-field floatLabel="always">
+                <input type="number" name="hotel" min="0" matInput formControlName="hotel">
+              </mat-form-field>
+            </td>
+          </tr>
 
-      <h5>Breakdown of Cost</h5>
+          <tr>
+            <td>Ticket</td>
+            <td class="text-right">
+              <mat-label>&#8369;</mat-label>
+              <mat-form-field floatLabel="always">
+                <input type="number" name="ticket" min="0" matInput formControlName="ticket">
+              </mat-form-field>
+            </td>
+          </tr>
 
-      <table>
-        <tr>
-          <td>
-            Hotel
-          </td>
-          <td>
-            P 0
-          </td>
-        </tr>
-      </table>
+          <tr>
+            <td>Airport cab at home</td>
+            <td class="text-right">
+              <mat-label>&#8369;</mat-label>
+              <mat-form-field floatLabel="always">
+                <input type="number" name="cab" min="0" matInput formControlName="cabAtHome">
+              </mat-form-field>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Airport cab at destination</td>
+            <td class="text-right">
+              <mat-label>&#8369;</mat-label>
+              <mat-form-field floatLabel="always">
+                <input type="number" name="cab" min="0" matInput formControlName="cabAtDestination">
+              </mat-form-field>
+            </td>
+          </tr>
+
+          <tr>
+            <td>TOTAL</td>
+            <td class="text-right">&#8369; 0</td>
+          </tr>
+        </table>
+
+        <div class="button-wrapper" *ngIf="progress===2">
+          <button type="button" mat-flat-button class="bg-light">Cancel</button>
+          <button type="button" mat-flat-button color="accent" (click)="nextStep()">Next</button>
+        </div>
+      </mat-expansion-panel>
+      
+
+      <mat-expansion-panel [expanded]="activePanel===3" [disabled]="progress<3" class="cost-breakdown">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <h5>3. Supporting Document</h5>
+          </mat-panel-title>
+          <mat-panel-description>
+            Optional
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <ngx-file-picker 
+        name="supporting-doc" 
+        ngDefaultControl
+        #bannerUploader
+        [adapter]="fileAdapter"  
+        [enableCropper]="false"
+        [uploadType]="'multi'"
+        [fileExtensions]="['gif', 'jpg', 'jpeg', 'png']"
+        (validationError)= "onValidationError($event)"
+        [showeDragDropZone]="true"
+        [showPreviewContainer]="true"
+        (fileAdded)="onUploadSuccess($event)"
+        (removeSuccess)="onRemoveSuccess($event)"
+        [captions]="">
+          <div class="dropzoneTemplate">
+            <div class="upload-area text-center">
+              <button type="button" mat-flat-button color="primary">
+                <mat-icon>add</mat-icon> attach image 
+              </button>
+            </div>
+          </div>
+        </ngx-file-picker>
+        
+        <mat-form-field floatLabel="always" class="col-12">
+          <mat-label>Description</mat-label>
+          <textarea matInput rows="5"></textarea>
+          <mat-hint align="start">Enter a description of the attached document.</mat-hint>
+        </mat-form-field>
+
+        <div class="button-wrapper" *ngIf="progress===3">
+          <button type="button" mat-flat-button class="bg-light">Cancel</button>
+          <button type="button" mat-flat-button color="primary" (click)="finish()">Skip this step</button>
+          <button type="button" mat-flat-button color="accent" (click)="finish()">Finish</button>
+        </div>
+      </mat-expansion-panel>
+
     </form>
   </div>
 </div>
