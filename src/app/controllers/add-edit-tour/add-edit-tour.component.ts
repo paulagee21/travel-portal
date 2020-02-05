@@ -3,6 +3,8 @@ import { FilePickerAdapter } from 'src/app/services/file-upload.service';
 import { MatDialog } from '@angular/material';
 import { PreviewTourModalComponent } from 'src/app/components/modals/preview-tour-modal/preview-tour-modal.component';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { CancelModalComponent } from 'src/app/components/modals/cancel-modal/cancel-modal.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-edit-tour',
@@ -11,9 +13,11 @@ import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 })
 export class AddEditTourComponent implements OnInit {
 
+  canDeactivate = false;
   activePanel: number = 1;
   progress: number = 1;
   fileAdapter = new FilePickerAdapter();
+  tomorrow = new Date();
   tourForm = new FormGroup({
     destination: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
@@ -21,16 +25,26 @@ export class AddEditTourComponent implements OnInit {
     endDate: new FormControl('', [Validators.required]),
     mode: new FormControl('', [Validators.required]),
     conveyance: new FormControl('', [Validators.required]),
-    hotel: new FormControl('', [Validators.required]),
-    ticket: new FormControl('', [Validators.required]),
-    cabAtHome: new FormControl('', [Validators.required]),
-    cabAtDestination: new FormControl('', [Validators.required]),
+    hotel: new FormControl('', [Validators.required, Validators.min(0)]),
+    ticket: new FormControl('', [Validators.required, Validators.min(0)]),
+    cabAtHome: new FormControl('', [Validators.required, Validators.min(0)]),
+    cabAtDestination: new FormControl('', [Validators.required, Validators.min(0)]),
     supportingDocuments: new FormArray([]),
   })
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog, private route: Router) {
+    this.tomorrow.setDate(this.tomorrow.getDate() + 1);
+  }
 
   ngOnInit() {
+  }
+
+  greaterThanStart(d: Date) {
+    console.log(this.tourForm);
+    console.log(this.tourForm.get('startDate'));
+    const startDate = new Date(this.tourForm.get('startDate').value);
+    console.log(startDate);
+
   }
 
   addSupportingDocument(document) {
@@ -38,9 +52,11 @@ export class AddEditTourComponent implements OnInit {
     docs.push(new FormControl({ description: document.description, image: document.image }));
   }
 
-  nextStep() {
-    this.activePanel += 1;
-    this.progress += 1;
+  nextStep(currStep) {
+    this.activePanel = currStep + 1;
+    if (currStep === this.progress) {
+      this.progress += 1;
+    }
   }
 
   finish() {
@@ -70,8 +86,16 @@ export class AddEditTourComponent implements OnInit {
     //call api
   }
 
-  expandPanel(number) {
-    this.activePanel = number;
+  expandPanel(step) {
+    this.activePanel = step;
+  }
+
+  cancel() {
+    const dialog = this.dialog.open(CancelModalComponent, { width: '500px' });
+    dialog.componentInstance.callback = () => {
+      this.canDeactivate = true;
+      this.route.navigateByUrl('/tours');
+    }
   }
 
   onUploadSuccess() { }

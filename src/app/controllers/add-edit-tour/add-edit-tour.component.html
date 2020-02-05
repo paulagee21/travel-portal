@@ -28,7 +28,7 @@
 
         <mat-form-field floatLabel="always" class="col-6">
           <mat-label>Start Date</mat-label>
-          <input matInput [matDatepicker]="startDatepicker" formControlName="startDate">
+          <input matInput [matDatepicker]="startDatepicker" [min]="tomorrow" formControlName="startDate">
           <mat-hint align="start">Enter the start date of the tour.</mat-hint>
           <mat-datepicker-toggle matSuffix [for]="startDatepicker"></mat-datepicker-toggle>
           <mat-datepicker #startDatepicker></mat-datepicker>
@@ -37,7 +37,7 @@
         <mat-form-field floatLabel="always" class="col-6">
           <mat-label>End Date</mat-label>
           <input matInput [matDatepicker]="endDatepicker" formControlName="endDate">
-          <mat-hint align="start">Enter the start date of the tour.</mat-hint>
+          <mat-hint align="start">Enter the end date of the tour.</mat-hint>
           <mat-datepicker-toggle matSuffix [for]="endDatepicker"></mat-datepicker-toggle>
           <mat-datepicker #endDatepicker></mat-datepicker>
         </mat-form-field>   
@@ -58,15 +58,37 @@
           <mat-hint align="start">Enter the local conveyance at the destination.</mat-hint>
         </mat-form-field>
 
-        <div class="button-wrapper" *ngIf="progress===1">
-          <button type="button" mat-flat-button class="bg-light">Cancel</button>
-          <button type="button" mat-flat-button color="accent" (click)="nextStep()">Next</button>
+        <div class="button-wrapper" *ngIf="progress===1; else basicChanges">
+          <button type="button" mat-flat-button class="bg-light" (click)="cancel()">Cancel</button>
+          <button type="button" mat-flat-button color="accent" (click)="nextStep(1)"
+            [disabled]="(!tourForm.get('destination').valid)
+            || (!tourForm.get('description').valid)
+            || (!tourForm.get('startDate').valid)
+            || (!tourForm.get('endDate').valid)
+            || (!tourForm.get('mode').valid)
+            || (!tourForm.get('conveyance').valid)">
+            Next
+          </button>
         </div>
+        <ng-template #basicChanges>
+          <div class="button-wrapper">
+            <button type="button" mat-flat-button class="bg-light" (click)="cancel()">Cancel</button>
+            <button type="button" mat-flat-button color="accent" (click)="nextStep(1)"
+              [disabled]="(!tourForm.get('destination').valid)
+              || (!tourForm.get('description').valid)
+              || (!tourForm.get('startDate').valid)
+              || (!tourForm.get('endDate').valid)
+              || (!tourForm.get('mode').valid)
+              || (!tourForm.get('conveyance').valid)">
+              Save Changes
+            </button>
+          </div>
+        </ng-template>
       </mat-expansion-panel>
 
 
       <mat-expansion-panel [expanded]="activePanel===2" [disabled]="progress<2" class="cost-breakdown">
-        <mat-expansion-panel-header>
+        <mat-expansion-panel-header (click)="expandPanel(2)">
           <mat-panel-title>
             <h5>2. Cost Breakdown</h5>
           </mat-panel-title>
@@ -114,19 +136,37 @@
 
           <tr>
             <td>TOTAL</td>
-            <td class="text-right">&#8369; 0</td>
+            <td class="text-right">&#8369; {{ (tourForm.get('hotel').value || 0) + (tourForm.get('ticket').value || 0) + (tourForm.get('cabAtHome').value || 0) + (tourForm.get('cabAtDestination').value || 0) }}</td>
           </tr>
         </table>
 
-        <div class="button-wrapper" *ngIf="progress===2">
-          <button type="button" mat-flat-button class="bg-light">Cancel</button>
-          <button type="button" mat-flat-button color="accent" (click)="nextStep()">Next</button>
+        <div class="button-wrapper" *ngIf="progress===2; else costChanges">
+          <button type="button" mat-flat-button class="bg-light" (click)="cancel()">Cancel</button>
+          <button type="button" mat-flat-button color="accent" (click)="nextStep(2)"
+            [disabled]="(!tourForm.get('hotel').valid)
+            || (!tourForm.get('ticket').valid)
+            || (!tourForm.get('cabAtHome').valid)
+            || (!tourForm.get('cabAtDestination').valid)">
+            Next
+          </button>
         </div>
+        <ng-template #costChanges>
+          <div class="button-wrapper">
+            <button type="button" mat-flat-button class="bg-light" (click)="cancel()">Cancel</button>
+            <button type="button" mat-flat-button color="accent" (click)="nextStep(2)"
+            [disabled]="(!tourForm.get('hotel').valid)
+            || (!tourForm.get('ticket').valid)
+            || (!tourForm.get('cabAtHome').valid)
+            || (!tourForm.get('cabAtDestination').valid)">
+            Save Changes
+          </button>
+          </div>
+        </ng-template>
       </mat-expansion-panel>
       
 
       <mat-expansion-panel [expanded]="activePanel===3" [disabled]="progress<3" class="cost-breakdown">
-        <mat-expansion-panel-header>
+        <mat-expansion-panel-header (click)="expandPanel(3)">
           <mat-panel-title>
             <h5>3. Supporting Document</h5>
           </mat-panel-title>
@@ -165,7 +205,7 @@
         </mat-form-field>
 
         <div class="button-wrapper" *ngIf="progress===3">
-          <button type="button" mat-flat-button class="bg-light">Cancel</button>
+          <button type="button" mat-flat-button class="bg-light" (click)="cancel()">Cancel</button>
           <button type="button" mat-flat-button color="primary" (click)="finish()">Skip this step</button>
           <button type="button" mat-flat-button color="accent" (click)="finish()">Finish</button>
         </div>
