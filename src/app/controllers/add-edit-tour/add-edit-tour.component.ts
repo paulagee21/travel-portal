@@ -4,7 +4,9 @@ import { MatDialog } from '@angular/material';
 import { PreviewTourModalComponent } from 'src/app/components/modals/preview-tour-modal/preview-tour-modal.component';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { CancelModalComponent } from 'src/app/components/modals/cancel-modal/cancel-modal.component';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { TourService } from 'src/app/services/tour.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-add-edit-tour',
@@ -31,12 +33,50 @@ export class AddEditTourComponent implements OnInit {
     cabAtDestination: new FormControl('', [Validators.required, Validators.min(0)]),
     supportingDocuments: new FormArray([]),
   })
+  fieldMap = [
+    { form: 'destination', api: 'destination' },
+    { form: 'description', api: 'description' },
+    { form: 'startDate', api: 'start_date' },
+    { form: 'endDate', api: 'end_date' },
+    { form: 'mode', api: 'mode' },
+    { form: 'conveyance', api: 'conveyance' },
+    { form: 'ticket', api: 'ticket' },
+    { form: 'hotel', api: 'hotel' },
+    { form: 'cabAtHome', api: 'airport_cab_home' },
+    { form: 'cabAtDestination', api: 'airport_cab_destination' },
 
-  constructor(private dialog: MatDialog, private route: Router) {
+  ]
+  mode;
+
+  constructor(
+    private dialog: MatDialog,
+    private route: Router,
+    private activeRoute: ActivatedRoute,
+    private tourService: TourService,
+  ) { 
     this.tomorrow.setDate(this.tomorrow.getDate() + 1);
   }
 
   ngOnInit() {
+    this.activeRoute.data.subscribe((d) => {
+      this.mode = d.mode;
+      if (d.mode === 'edit') {
+        const brandId = this.activeRoute.snapshot.paramMap.get('id');
+        this.setupFormValues(brandId);
+      }
+    })
+  }
+
+  setupFormValues(id) {
+    const tour = this.tourService.getById(id);
+    this.fieldMap.forEach((map) => {
+      if (map.form === 'startDate' || map.form === 'endDate') {
+        const date = new Date(tour[map.api]);
+        this.tourForm.get(map.form).setValue(date);
+      } else {
+        this.tourForm.get(map.form).setValue(tour[map.api]);
+      }
+    })
   }
 
   greaterThanStart(d: Date) {
@@ -60,21 +100,14 @@ export class AddEditTourComponent implements OnInit {
   }
 
   finish() {
+    const data: any = {};
+    this.fieldMap.forEach((field) => {
+      data[field.form] = this.tourForm.get(field.form).value;
+    })
+    data.supportingDocuments = this.tourForm.get('supportingDocuments').value;
     const modal = this.dialog.open(PreviewTourModalComponent, {
       width: '700px',
-      data: {
-        destination: this.tourForm.get('destination').value,
-        description: this.tourForm.get('description').value,
-        startDate: this.tourForm.get('startDate').value,
-        endDate: this.tourForm.get('endDate').value,
-        mode: this.tourForm.get('mode').value,
-        conveyance: this.tourForm.get('conveyance').value,
-        hotel: this.tourForm.get('hotel').value,
-        ticket: this.tourForm.get('ticket').value,
-        cabAtHome: this.tourForm.get('cabAtHome').value,
-        cabAtDestination: this.tourForm.get('cabAtDestination').value,
-        supportingDocuments: this.tourForm.get('supportingDocuments').value,
-      }
+      data: data 
     });
 
     modal.componentInstance.saveTour.on('', () => {

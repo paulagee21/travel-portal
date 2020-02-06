@@ -34,7 +34,6 @@ export class TourDetailComponent implements OnInit {
   ngOnInit() {
     const tourId = this.route.snapshot.paramMap.get('id');
     const tour = this.tourService.getById(tourId);
-
     if (tour.status == 'pending' || tour.status == 'requesting') {
       this.currentStep = tour.approved_by ? 2 : 1; 
     } else if (tour.status == 'approved') {
@@ -44,10 +43,8 @@ export class TourDetailComponent implements OnInit {
     } else if (tour.status == 'draft') {
       this.currentStep = 1;
     }
-
-    console.log(this.currentStep);
-
     this.tour = tour;
+    console.log(tour.supporting_documents);
   }
 
 }

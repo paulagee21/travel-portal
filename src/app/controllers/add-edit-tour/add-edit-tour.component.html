@@ -1,6 +1,6 @@
 <div class="container add-edit">
   <div class="header row">
-    <h3>Add Tour</h3>
+    <h3>{{ mode.charAt(0).toUpperCase() + mode.slice(1) }} Tour</h3>
     <a routerLink="/tours">
       <mat-icon matPrefix>keyboard_backspace</mat-icon> go back
     </a>
@@ -13,7 +13,7 @@
             <h5>1. Basic Information</h5>
           </mat-panel-title>
         </mat-expansion-panel-header>
-        
+
         <mat-form-field floatLabel="always" class="col-12">
           <mat-label>Destination</mat-label>
           <input type="text" name="destination" matInput formControlName="destination">
@@ -32,22 +32,22 @@
           <mat-hint align="start">Enter the start date of the tour.</mat-hint>
           <mat-datepicker-toggle matSuffix [for]="startDatepicker"></mat-datepicker-toggle>
           <mat-datepicker #startDatepicker></mat-datepicker>
-        </mat-form-field>   
+        </mat-form-field>
 
         <mat-form-field floatLabel="always" class="col-6">
           <mat-label>End Date</mat-label>
-          <input matInput [matDatepicker]="endDatepicker" formControlName="endDate">
+          <input matInput [matDatepicker]="endDatepicker" [min]="tourForm.get('startDate').value || tomorrow" formControlName="endDate">
           <mat-hint align="start">Enter the end date of the tour.</mat-hint>
           <mat-datepicker-toggle matSuffix [for]="endDatepicker"></mat-datepicker-toggle>
           <mat-datepicker #endDatepicker></mat-datepicker>
-        </mat-form-field>   
+        </mat-form-field>
 
         <mat-form-field floatLabel="always" class="col-12">
           <mat-label>Mode of Travel</mat-label>
           <mat-select formControlName="mode">
-            <mat-option value="Airplane">Airplane</mat-option>
-            <mat-option value="Ship">Ship</mat-option>
-            <mat-option value="Railway">Railway</mat-option>
+            <mat-option value="airplane">Airplane</mat-option>
+            <mat-option value="ship">Ship</mat-option>
+            <mat-option value="railway">Railway</mat-option>
           </mat-select>
           <mat-hint align="start">Select the mode of travel.</mat-hint>
         </mat-form-field>
@@ -163,7 +163,7 @@
           </div>
         </ng-template>
       </mat-expansion-panel>
-      
+
 
       <mat-expansion-panel [expanded]="activePanel===3" [disabled]="progress<3" class="cost-breakdown">
         <mat-expansion-panel-header (click)="expandPanel(3)">
@@ -175,11 +175,11 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
 
-        <ngx-file-picker 
-        name="supporting-doc" 
+        <ngx-file-picker
+        name="supporting-doc"
         ngDefaultControl
         #bannerUploader
-        [adapter]="fileAdapter"  
+        [adapter]="fileAdapter"
         [enableCropper]="false"
         [uploadType]="'multi'"
         [fileExtensions]="['gif', 'jpg', 'jpeg', 'png']"
@@ -192,12 +192,12 @@
           <div class="dropzoneTemplate">
             <div class="upload-area text-center">
               <button type="button" mat-flat-button color="primary">
-                <mat-icon>add</mat-icon> attach image 
+                <mat-icon>add</mat-icon> attach image
               </button>
             </div>
           </div>
         </ngx-file-picker>
-        
+
         <mat-form-field floatLabel="always" class="col-12">
           <mat-label>Description</mat-label>
           <textarea matInput rows="5"></textarea>

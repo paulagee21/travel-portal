@@ -22,6 +22,9 @@ import {
   MAT_DATE_LOCALE,
 } from '@angular/material';
 
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './services/token.interceptor';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ToursComponent } from './controllers/tours/tours.component';
@@ -34,6 +37,7 @@ import { FilePickerModule } from 'ngx-awesome-uploader';
 import { PreviewTourModalComponent } from './components/modals/preview-tour-modal/preview-tour-modal.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CancelModalComponent } from './components/modals/cancel-modal/cancel-modal.component';
+import { SubmitTourComponent } from './controllers/submit-tour/submit-tour.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +49,8 @@ import { CancelModalComponent } from './components/modals/cancel-modal/cancel-mo
     NavbarComponent,
     TourDetailModalComponent,
     PreviewTourModalComponent,
-    CancelModalComponent
+    CancelModalComponent,
+    SubmitTourComponent
   ],
   imports: [
     BrowserModule,
@@ -78,6 +83,11 @@ import { CancelModalComponent } from './components/modals/cancel-modal/cancel-mo
       provide: MAT_DATE_LOCALE,
       useValue: 'en-GB'
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
+    }
   ],
   entryComponents: [
     TourDetailModalComponent, 

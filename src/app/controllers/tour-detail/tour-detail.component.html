@@ -7,7 +7,7 @@
   </div>
 
   <div class="card row" *ngIf="tour">
-    <mat-horizontal-stepper linear="true" [selectedIndex]="currentStep">
+    <mat-horizontal-stepper linear="true" [selectedIndex]="currentStep" *ngIf="tour.status !== 'draft'">
       <mat-step label="Create tour" [completed]="currentStep > 0" editable="false"
         [state]="currentStep === 0 ? state[tour.status].icon : null">
       </mat-step>
@@ -57,8 +57,55 @@
 
     <mat-divider></mat-divider>
 
-    <div class="breakdown">
-      asdfa
+    <div class="col-12 breakdown">
+      <h5 class="text-left">Cost Breakdown</h5>
+
+      <table class="table" class="col-12">
+        <tr>
+          <td>Hotel</td>
+          <td class="text-right">
+            <mat-label>&#8369;</mat-label> {{ tour.hotel }}
+          </td>
+        </tr>
+
+        <tr>
+          <td>Ticket</td>
+          <td class="text-right">
+            <mat-label>&#8369;</mat-label> {{ tour.ticket }}
+          </td>
+        </tr>
+
+        <tr>
+          <td>Airport cab at home</td>
+          <td class="text-right">
+            <mat-label>&#8369;</mat-label> {{ tour.airport_cab_home }}
+          </td>
+        </tr>
+
+        <tr>
+          <td>Airport cab at destination</td>
+          <td class="text-right">
+            <mat-label>&#8369;</mat-label> {{ tour.airport_cab_destination }}
+          </td>
+        </tr>
+
+        <tr>
+          <td>TOTAL</td>
+          <td class="text-right">&#8369; {{  tour.hotel + tour.ticket + tour.airport_cab_home + tour.airport_cab_destination }}</td>
+        </tr>
+      </table>
+
+    </div>
+
+    <mat-divider *ngIf="tour.supporting_documents"></mat-divider>
+    <div *ngIf="tour.supporting_documents" class="col-12 docs">
+      <h5>Supporting Documents</h5>
+      <div class="media" *ngFor="let doc of tour.supporting_documents">
+          <img [src]="doc.image" alt="...">
+          <div class="media-body">
+            {{ doc.description }}
+          </div>
+      </div>
     </div>
   </div>
 </div>
