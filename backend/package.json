@@ -1,0 +1,37 @@
+{
+  "name": "imfree-cms-backend",
+  "version": "1.0.0",
+  "description": "ImFree CMS backend",
+  "main": "index.js",
+  "scripts": {
+    "migrate": "knex --knexfile src/db/knexfile.ts",
+    "dev": "nodemon src/index.ts"
+  },
+  "keywords": [
+    "nodejs",
+    "express"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^4.17.0",
+    "nodemon": "^2.0.1",
+    "ts-node": "^8.5.2"
+  },
+  "dependencies": {
+    "@angular/core": "^8.2.14",
+    "@types/node": "^12.12.17",
+    "bcrypt": "^3.0.7",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-validator": "^6.3.0",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.17.6",
+    "pg": "^7.14.0",
+    "rxjs": "^6.4.0",
+    "sharp": "^0.23.4",
+    "typescript": "^3.7.2",
+    "winston": "^3.2.1"
+  }
+}
