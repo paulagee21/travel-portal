@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FilePickerAdapter } from 'src/app/services/file-upload.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { PreviewTourModalComponent } from 'src/app/components/modals/preview-tour-modal/preview-tour-modal.component';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { CancelModalComponent } from 'src/app/components/modals/cancel-modal/cancel-modal.component';
@@ -38,7 +38,7 @@ export class AddEditTourComponent implements OnInit {
     { form: 'description', api: 'description' },
     { form: 'startDate', api: 'start_date' },
     { form: 'endDate', api: 'end_date' },
-    { form: 'mode', api: 'mode' },
+    { form: 'mode', api: 'mode_of_travel' },
     { form: 'conveyance', api: 'conveyance' },
     { form: 'ticket', api: 'ticket' },
     { form: 'hotel', api: 'hotel' },
@@ -53,6 +53,7 @@ export class AddEditTourComponent implements OnInit {
     private route: Router,
     private activeRoute: ActivatedRoute,
     private tourService: TourService,
+    private snackbar: MatSnackBar,
   ) { 
     this.tomorrow.setDate(this.tomorrow.getDate() + 1);
   }
@@ -61,30 +62,28 @@ export class AddEditTourComponent implements OnInit {
     this.activeRoute.data.subscribe((d) => {
       this.mode = d.mode;
       if (d.mode === 'edit') {
-        const brandId = this.activeRoute.snapshot.paramMap.get('id');
-        this.setupFormValues(brandId);
+        const tourId = this.activeRoute.snapshot.paramMap.get('id');
+        this.setupFormValues(tourId);
       }
     })
   }
 
   setupFormValues(id) {
-    const tour = this.tourService.getById(id);
-    this.fieldMap.forEach((map) => {
-      if (map.form === 'startDate' || map.form === 'endDate') {
-        const date = new Date(tour[map.api]);
-        this.tourForm.get(map.form).setValue(date);
-      } else {
-        this.tourForm.get(map.form).setValue(tour[map.api]);
-      }
-    })
-  }
-
-  greaterThanStart(d: Date) {
-    console.log(this.tourForm);
-    console.log(this.tourForm.get('startDate'));
-    const startDate = new Date(this.tourForm.get('startDate').value);
-    console.log(startDate);
-
+    this.tourService.getById(id).subscribe((response: any) =>{
+      const tour = response.data;
+      tour.hotel = parseFloat(tour.hotel);
+      tour.ticket = parseFloat(tour.ticket);
+      tour.airport_cab_home = parseFloat(tour.airport_cab_home);
+      tour.airport_cab_destination = parseFloat(tour.airport_cab_destination);
+      this.fieldMap.forEach((map) => {
+        if (map.form === 'startDate' || map.form === 'endDate') {
+          const date = new Date(tour[map.api]);
+          this.tourForm.get(map.form).setValue(date);
+        } else {
+          this.tourForm.get(map.form).setValue(tour[map.api]);
+        }
+      })
+    });
   }
 
   addSupportingDocument(document) {
@@ -116,7 +115,22 @@ export class AddEditTourComponent implements OnInit {
   }
 
   submitForm() {
-    //call api
+    const data: any = {};
+    this.fieldMap.forEach((field) => {
+      data[field.api] = this.tourForm.get(field.form).value;
+    })
+    if (this.mode === 'add') {
+      this.tourService.create(data).subscribe((response) =>{
+
+      });
+    } else {
+      const tourId = this.activeRoute.snapshot.paramMap.get('id');
+      this.tourService.update(tourId, data).subscribe((response) =>{
+        this.snackbar.open('Changes have been saved.', '', { duration: 3000 });
+        this.canDeactivate = true;
+        this.route.navigateByUrl(`/tours/${tourId}`);
+      });
+    }
   }
 
   expandPanel(step) {

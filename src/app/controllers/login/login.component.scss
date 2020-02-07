@@ -8,11 +8,17 @@
   }
 
   .card {
-    padding: 0 24px;
+    padding: 40px 24px;
     font-size: 14px;
     display: flex;
     border-top: 3px solid #673ab7;
     width: 500px;
     height: 350px;
+
+    form {
+      width: 300px;
+      margin: 0 auto;
+      float: none;
+    }
   }
 }

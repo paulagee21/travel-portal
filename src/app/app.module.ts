@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import {
   MatIconModule,
-  MatListModule,
   MatDatepickerModule,
   MatNativeDateModule,
   MatDialogModule,
@@ -22,7 +21,7 @@ import {
   MAT_DATE_LOCALE,
 } from '@angular/material';
 
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { TokenInterceptor } from './services/token.interceptor';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -58,6 +57,7 @@ import { SubmitTourComponent } from './controllers/submit-tour/submit-tour.compo
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
 
     FilePickerModule,
 
@@ -71,6 +71,7 @@ import { SubmitTourComponent } from './controllers/submit-tour/submit-tour.compo
     MatInputModule,
     MatFormFieldModule,
     MatSelectModule,
+    MatSnackBarModule,
     MatStepperModule,
     MatTableModule,
   ],

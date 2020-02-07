@@ -7,16 +7,13 @@
   </div>
 
   <div class="card row" *ngIf="tour">
-    <mat-horizontal-stepper linear="true" [selectedIndex]="currentStep" *ngIf="tour.status !== 'draft'">
-      <mat-step label="Create tour" [completed]="currentStep > 0" editable="false"
-        [state]="currentStep === 0 ? state[tour.status].icon : null">
+    <mat-horizontal-stepper linear="true" [selectedIndex]="currentStep">
+      <mat-step label="Create tour" completed="true" editable="false">
       </mat-step>
       <mat-step label="Manager Approval" [completed]="currentStep > 0" editable="false"
-        [state]="currentStep === 1 ? state[tour.status].icon : null"
         [ngClass]="currentStep === 1 && tour.status == 'rejected' ? 'bg-danger' : ''">
       </mat-step>
       <mat-step label="Finance Approval" [completed]="currentStep > 0" editable="false"
-        [state]="currentStep === 2 ? state[tour.status].icon : null"
         [ngClass]="currentStep === 2 && tour.status == 'rejected' ? 'bg-danger' : ''">
       </mat-step>
     </mat-horizontal-stepper>
@@ -46,7 +43,7 @@
 
       <div class="mode">
         <b>Mode of Transport</b>
-        <p><small>{{ tour.mode }}</small></p>
+        <p><small>{{ tour.mode_of_travel }}</small></p>
       </div>
 
       <div class="conveyance">

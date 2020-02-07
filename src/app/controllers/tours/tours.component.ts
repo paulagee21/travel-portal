@@ -22,13 +22,24 @@ export class ToursComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.tours = this.tourService.getAll();
-    this.tours.map((tour) => {
-      tour.start_date = moment(tour.start_date).format('MMM D, YYYY');
-      tour.end_date = moment(tour.end_date).format('MMM D, YYYY');
-      return tour;
+    this.tourService.getAll().subscribe((response: any) =>{
+      this.tours = response.data;
+      this.tours.map((tour) => {
+        if (tour.manager_status) {
+          if (tour.manager_status === 'approved') {
+            tour.status = tour.finance_manager_status;
+          } {
+            tour.status = tour.manager_status;
+          }
+        } else {
+          tour.status = 'draft';
+        }
+        tour.start_date = moment(tour.start_date).format('MMM D, YYYY');
+        tour.end_date = moment(tour.end_date).format('MMM D, YYYY');
+        return tour;
+      });
+      this.filterTours();
     });
-    this.filterTours();
   }
 
   filterTours() {

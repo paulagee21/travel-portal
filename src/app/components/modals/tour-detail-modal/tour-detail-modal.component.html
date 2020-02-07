@@ -10,13 +10,13 @@
   <p class="text-muted"><small>{{ data.description }}</small></p>
   <p class="text-muted"><small>Travel period: from <b>{{ data.start_date }}</b> to <b>{{ data.end_date }}.</b></small></p>
   <p>
-    <button mat-raised-button color="primary" routerLink="/tours/{{ data.id }}" (click)="dialogRef.close()">
+    <button mat-raised-button color="primary" routerLink="/tours/{{ data.tour_id }}" (click)="dialogRef.close()">
       <mat-icon matPrefix>remove_red_eye</mat-icon> view more info
     </button>
-    <button mat-raised-button *ngIf="data.status === 'draft'" color="accent" [routerLink]="['tours', data.id, 'edit']" (click)="dialogRef.close()">
+    <button mat-raised-button *ngIf="data.status === 'draft'" color="accent" [routerLink]="['tours', data.tour_id, 'edit']" (click)="dialogRef.close()">
       <mat-icon matPrefix>edit</mat-icon> edit 
     </button>
-    <button mat-raised-button *ngIf="data.status === 'draft'" class="bg-success text-white" [routerLink]="['tours', data.id, 'submit']" (click)="dialogRef.close()">
+    <button mat-raised-button *ngIf="data.status === 'draft'" class="bg-success text-white" [routerLink]="['tours', data.tour_id, 'submit']" (click)="dialogRef.close()">
       <mat-icon matPrefix>send</mat-icon> submit 
     </button>
   </p>

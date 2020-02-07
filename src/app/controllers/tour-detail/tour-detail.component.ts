@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TourService } from 'src/app/services/tour.service';
 import { ActivatedRoute } from '@angular/router';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-tour-detail',
@@ -20,7 +21,7 @@ export class TourDetailComponent implements OnInit {
       icon: 'close',
       class: 'bg-danger',
     },
-    requesting: {
+    requesting_information: {
       icon: 'description',
       class: 'bg-primary',
     },
@@ -33,18 +34,29 @@ export class TourDetailComponent implements OnInit {
 
   ngOnInit() {
     const tourId = this.route.snapshot.paramMap.get('id');
-    const tour = this.tourService.getById(tourId);
-    if (tour.status == 'pending' || tour.status == 'requesting') {
-      this.currentStep = tour.approved_by ? 2 : 1; 
-    } else if (tour.status == 'approved') {
-      this.currentStep = 3;
-    } else if (tour.status == 'rejected') {
-      this.currentStep = tour.rejected_by ? 2 : 1; 
-    } else if (tour.status == 'draft') {
-      this.currentStep = 1;
-    }
-    this.tour = tour;
-    console.log(tour.supporting_documents);
+    this.tourService.getById(tourId).subscribe((response: any) => {
+      const tour = response.data
+      tour.hotel = parseFloat(tour.hotel);
+      tour.ticket = parseFloat(tour.ticket);
+      tour.airport_cab_home = parseFloat(tour.airport_cab_home);
+      tour.airport_cab_destination = parseFloat(tour.airport_cab_destination);
+      if (tour.manager_status) {
+        if (tour.manager_status === 'approved') {
+          tour.status = tour.finance_manager_status;
+          this.currentStep = 2;
+        } {
+          tour.status = tour.manager_status;
+          this.currentStep = 1;
+        }
+      } else {
+        tour.status = 'draft';
+        this.currentStep = 0;
+      }
+      tour.start_date = moment(tour.start_date).format('MMM D, YYYY');
+      tour.end_date = moment(tour.end_date).format('MMM D, YYYY');
+      this.tour = tour;
+      console.log(this.tour.supporting_documents);
+    });
   }
 
 }
