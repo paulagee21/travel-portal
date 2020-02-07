@@ -37,6 +37,7 @@ import { PreviewTourModalComponent } from './components/modals/preview-tour-moda
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CancelModalComponent } from './components/modals/cancel-modal/cancel-modal.component';
 import { SubmitTourComponent } from './controllers/submit-tour/submit-tour.component';
+import { AddInfoComponent } from './controllers/add-info/add-info.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { SubmitTourComponent } from './controllers/submit-tour/submit-tour.compo
     TourDetailModalComponent,
     PreviewTourModalComponent,
     CancelModalComponent,
-    SubmitTourComponent
+    SubmitTourComponent,
+    AddInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -78,7 +80,7 @@ import { SubmitTourComponent } from './controllers/submit-tour/submit-tour.compo
   providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,
-      useValue: { displayDefaultIndicatorType: false }
+      useValue: { displayDefaultIndicatorType: false, showError: true }
     },
     {
       provide: MAT_DATE_LOCALE,

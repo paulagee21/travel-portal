@@ -13,11 +13,23 @@
     <button mat-raised-button color="primary" routerLink="/tours/{{ data.tour_id }}" (click)="dialogRef.close()">
       <mat-icon matPrefix>remove_red_eye</mat-icon> view more info
     </button>
-    <button mat-raised-button *ngIf="data.status === 'draft'" color="accent" [routerLink]="['tours', data.tour_id, 'edit']" (click)="dialogRef.close()">
+    <button mat-raised-button *ngIf="data.status === 'draft' && canEdit" color="accent" [routerLink]="['tours', data.tour_id, 'edit']" (click)="dialogRef.close()">
       <mat-icon matPrefix>edit</mat-icon> edit 
     </button>
-    <button mat-raised-button *ngIf="data.status === 'draft'" class="bg-success text-white" [routerLink]="['tours', data.tour_id, 'submit']" (click)="dialogRef.close()">
+    <button mat-raised-button *ngIf="canSubmit" class="bg-success text-white" [routerLink]="['tours', data.tour_id, 'submit']" (click)="dialogRef.close()">
       <mat-icon matPrefix>send</mat-icon> submit 
+    </button>
+    <button mat-raised-button *ngIf="canRequestInfo" class="bg-primary text-white" (click)="inquire()">
+      <mat-icon matPrefix>help_outline</mat-icon> request info 
+    </button>
+    <button mat-raised-button *ngIf="canAddInfo" class="bg-light text-white" [routerLink]="['tours', data.tour_id, 'add-info']" (click)="dialogRef.close()">
+      <mat-icon matPrefix>add</mat-icon> add info 
+    </button>
+    <button mat-raised-button *ngIf="canApproveReject" class="bg-success text-white" (click)="approve()">
+      <mat-icon matPrefix>check</mat-icon> approve 
+    </button>
+    <button mat-raised-button *ngIf="canApproveReject" class="bg-danger text-white" (click)="reject()">
+      <mat-icon matPrefix>close</mat-icon> reject 
     </button>
   </p>
 </div>

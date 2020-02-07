@@ -11,9 +11,7 @@
       <mat-form-field floatLabel="always" class="col-12">
         <mat-label>Select a manager</mat-label>
         <mat-select [(ngModel)]="manager" name="manager">
-          <mat-option value="airplane">Airplane</mat-option>
-          <mat-option value="ship">Ship</mat-option>
-          <mat-option value="railway">Railway</mat-option>
+          <mat-option *ngFor="let m of managers" [value]="m.id">{{ m.username }}</mat-option>
         </mat-select>
         <mat-hint align="start">Select the manager who will review the tour.</mat-hint>
       </mat-form-field>

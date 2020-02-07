@@ -120,8 +120,10 @@ export class AddEditTourComponent implements OnInit {
       data[field.api] = this.tourForm.get(field.form).value;
     })
     if (this.mode === 'add') {
-      this.tourService.create(data).subscribe((response) =>{
-
+      this.tourService.create(data).subscribe((response: any) =>{
+        this.snackbar.open('New tour created.', '', { duration: 3000 });
+        this.canDeactivate = true;
+        this.route.navigateByUrl(`/tours/${response.data.id}`);
       });
     } else {
       const tourId = this.activeRoute.snapshot.paramMap.get('id');

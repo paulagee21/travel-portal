@@ -18,6 +18,9 @@ export class LoginComponent implements OnInit {
   constructor(private userService: UserService, private route: Router) { }
 
   ngOnInit() {
+    if (this.userService.getToken()) {
+      this.route.navigateByUrl('/tours');
+    }
   }
 
   submit() {
@@ -25,12 +28,11 @@ export class LoginComponent implements OnInit {
       username: this.form.get('username').value,
       password: this.form.get('password').value,
     }
-    console.log(loginData);
     this.userService.login(loginData).subscribe((response: any) => {
       this.userService.saveSession(response.data);
       this.route.navigateByUrl('/tours');
     }, (error) => {
-      console.log(error);
+      this.form.get('password').setErrors({ invalid: true });
     })
   }
 

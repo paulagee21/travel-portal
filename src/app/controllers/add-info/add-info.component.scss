@@ -1,0 +1,28 @@
+.submit {
+  .card {
+    padding: 10px;
+    padding-bottom: 10px;
+    font-size: 14px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    min-height: 350px;
+  }
+
+  .field-container {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+
+    ::ng-deep mat-form-field {
+      max-width: 500px;
+    }
+
+    button {
+      margin-top: 20px;
+      min-width: 100px;
+    }
+  }
+}

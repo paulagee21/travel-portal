@@ -10,11 +10,11 @@
     <mat-horizontal-stepper linear="true" [selectedIndex]="currentStep">
       <mat-step label="Create tour" completed="true" editable="false">
       </mat-step>
-      <mat-step label="Manager Approval" [completed]="currentStep > 0" editable="false"
-        [ngClass]="currentStep === 1 && tour.status == 'rejected' ? 'bg-danger' : ''">
+      <mat-step label="Manager Approval" [completed]="currentStep > 1" editable="false"
+        [state]="currentStep == 1 && tour.status == 'rejected' ? 'close' : 'number'">
       </mat-step>
-      <mat-step label="Finance Approval" [completed]="currentStep > 0" editable="false"
-        [ngClass]="currentStep === 2 && tour.status == 'rejected' ? 'bg-danger' : ''">
+      <mat-step label="Finance Approval" [completed]="currentStep > 2" editable="false"
+        [state]="currentStep >= 2 && tour.status == 'rejected' ? 'close' : 'number'">
       </mat-step>
     </mat-horizontal-stepper>
 
@@ -104,5 +104,18 @@
           </div>
       </div>
     </div>
+
+    <mat-divider *ngIf="tour.additional_information"></mat-divider>
+    <div *ngIf="tour.additional_information" class="col-12 info">
+      <h5>Additional Information</h5>
+      <div class="media" *ngFor="let info of tour.additional_information">
+        <div class="media-body">
+          <p>{{ info.information }}</p>
+          <p class="text-muted"><small> - requested by {{ info.requested_by || 'finance' }}</small></p>
+        </div>
+      </div>
+    </div>
+
+
   </div>
 </div>

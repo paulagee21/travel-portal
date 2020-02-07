@@ -8,15 +8,39 @@ import { HttpClient } from '@angular/common/http';
 export class UserService {
 
   API_URL = `${environment.api_url}/users`;
+  EMPLOYEE_ROLE_ID = 1;
+  MANAGER_ROLE_ID = 2;
+  FINANCE_MANAGER_ROLE_ID = 3;
+  permissions = {
+    add: [1],
+    edit: [1],
+    submit: [1],
+    approve: [2,3],
+    add_info: [1],
+    request_info: [2,3],
+  }
 
   constructor(private http: HttpClient) { }
 
   getManagers() {
-    //
+    return this.http.get(`${this.API_URL}/managers`);
   }
 
   saveSession(data) {
     localStorage.setItem('user-data', JSON.stringify(data));
+  }
+
+  hasPermission(action) {
+    const roleId = this.getRole();
+    return this.permissions[action].indexOf(roleId) !== -1;
+  }
+
+  getRole() {
+    try {
+      const user: any = JSON.parse(localStorage.getItem('user-data'));
+      if (user) return parseInt(user.role, 10);
+    } catch (error) { }
+    return null;
   }
 
   getToken() {
@@ -32,6 +56,6 @@ export class UserService {
   }
 
   logout() {
-
+    localStorage.removeItem('user-data');
   }
 }

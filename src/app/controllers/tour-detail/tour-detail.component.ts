@@ -12,20 +12,6 @@ export class TourDetailComponent implements OnInit {
 
   tour;
   currentStep: number;
-  state = {
-    pending: {
-      icon: 'help_outline',
-      class: 'bg-warning',
-    },
-    rejected: {
-      icon: 'close',
-      class: 'bg-danger',
-    },
-    requesting_information: {
-      icon: 'description',
-      class: 'bg-primary',
-    },
-  } 
 
   constructor(
     private tourService: TourService,
@@ -43,8 +29,8 @@ export class TourDetailComponent implements OnInit {
       if (tour.manager_status) {
         if (tour.manager_status === 'approved') {
           tour.status = tour.finance_manager_status;
-          this.currentStep = 2;
-        } {
+          this.currentStep = tour.status === 'approved' ? 3 : 2;
+        } else {
           tour.status = tour.manager_status;
           this.currentStep = 1;
         }
@@ -55,7 +41,6 @@ export class TourDetailComponent implements OnInit {
       tour.start_date = moment(tour.start_date).format('MMM D, YYYY');
       tour.end_date = moment(tour.end_date).format('MMM D, YYYY');
       this.tour = tour;
-      console.log(this.tour.supporting_documents);
     });
   }
 

@@ -40,7 +40,23 @@ export class TourService {
   }
 
   submit(id, data) {
-    //
+    return this.http.post(`${this.API_URL}/${id}/submit`, data);
+  }
+
+  approve(id) {
+    return this.http.post(`${this.API_URL}/${id}/approve`, {});
+  }
+
+  reject(id) {
+    return this.http.post(`${this.API_URL}/${id}/reject`, {});
+  }
+
+  inquire(id) {
+    return this.http.post(`${this.API_URL}/${id}/inquire`, {});
+  }
+
+  addInfo(id, data) {
+    return this.http.post(`${this.API_URL}/${id}/add-info`, data);
   }
 
   create(data) {
