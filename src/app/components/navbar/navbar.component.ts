@@ -9,9 +9,14 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class NavbarComponent implements OnInit {
 
+  showLogout;
+
   constructor(private route: Router, private userService: UserService) { }
 
   ngOnInit() {
+    if (this.userService.getToken()) {
+      this.showLogout = true;
+    }
   }
 
   logout() {

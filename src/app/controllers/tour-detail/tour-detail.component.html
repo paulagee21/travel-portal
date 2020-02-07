@@ -105,8 +105,8 @@
       </div>
     </div>
 
-    <mat-divider *ngIf="tour.additional_information"></mat-divider>
-    <div *ngIf="tour.additional_information" class="col-12 info">
+    <mat-divider *ngIf="tour.additional_information.length"></mat-divider>
+    <div *ngIf="tour.additional_information.length" class="col-12 info">
       <h5>Additional Information</h5>
       <div class="media" *ngFor="let info of tour.additional_information">
         <div class="media-body">
