@@ -6,7 +6,6 @@ exports.seed = function(knex, Promise) {
       // Inserts seed entries
       return knex('tours').insert([
         {
-          id: 1,
           destination: 'Osaka, Japan',
           description: 'The land of the rising sun',
           conveyance: 'van',
@@ -20,7 +19,6 @@ exports.seed = function(knex, Promise) {
           created_by: 'employee',
         },
         {
-          id: 2,
           destination: 'Seoul, South Korea',
           description: 'Seoul is a huge metropolis where modern skyscrapers, high-tech subways and pop culture meet Buddhist temples, palaces and street markets. Notable attractions include futuristic Dongdaemun Design Plaza, a convention hall with curving architecture and a rooftop park; Gyeongbokgung Palace, which once had more than 7,000 rooms; and Jogyesa Temple, site of ancient locust and pine trees.',
           conveyance: 'van',
