@@ -63,9 +63,10 @@ class TourController {
     const { id } = req.params;
     const { user_id, username, role_id } = req;
     try {
-      const result = await this.model.approve(
+      const result = await this.model.updateStatus(
         id,
         { username: username, user_id: user_id, role_id: role_id },
+        'approved'
       );
       res.status(200).json({ data: result });
     } catch (error) {
@@ -77,9 +78,10 @@ class TourController {
     const { id } = req.params;
     const { user_id, username, role_id } = req;
     try {
-      const result = await this.model.reject(
+      const result = await this.model.updateStatus(
         id,
         { username: username, user_id: user_id, role_id: role_id },
+        'rejected'
       );
       res.status(200).json({ data: result });
     } catch (error) {
@@ -91,9 +93,10 @@ class TourController {
     const { id } = req.params;
     const { user_id, username, role_id } = req;
     try {
-      const result = await this.model.inquire(
+      const result = await this.model.updateStatus(
         id,
         { username: username, user_id: user_id, role_id: role_id },
+        'requesting_information'
       );
       res.status(200).json({ data: result });
     } catch (error) {

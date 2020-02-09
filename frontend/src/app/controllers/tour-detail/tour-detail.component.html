@@ -116,6 +116,26 @@
       </div>
     </div>
 
+  </div>
 
+  <div class="card row" *ngIf="canEdit || canSubmit || canRequestInfo || canAddInfo || canApproveReject">
+    <button mat-raised-button *ngIf="canEdit" color="accent" routerLink="edit">
+      <mat-icon matPrefix>edit</mat-icon> edit 
+    </button>
+    <button mat-raised-button *ngIf="canSubmit" class="bg-success text-white" routerLink="submit">
+      <mat-icon matPrefix>send</mat-icon> submit 
+    </button>
+    <button mat-raised-button *ngIf="canRequestInfo" class="bg-primary text-white" (click)="inquire()">
+      <mat-icon matPrefix>help_outline</mat-icon> request info 
+    </button>
+    <button mat-raised-button *ngIf="canAddInfo" class="bg-light text-white" routerLink="add-info">
+      <mat-icon matPrefix>add</mat-icon> add info 
+    </button>
+    <button mat-raised-button *ngIf="canApproveReject" class="bg-success text-white" (click)="approve()">
+      <mat-icon matPrefix>check</mat-icon> approve 
+    </button>
+    <button mat-raised-button *ngIf="canApproveReject" class="bg-danger text-white" (click)="reject()">
+      <mat-icon matPrefix>close</mat-icon> reject 
+    </button>
   </div>
 </div>

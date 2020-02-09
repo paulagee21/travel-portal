@@ -80,42 +80,18 @@ class Tour {
     return { status: 'success' };
   }
 
-  approve = async (id, user) => {
+  updateStatus = async (id, user, status) => {
     if (user.role_id === User.MANAGER_ROLE_ID) {
       await knex('tour_managers')
-        .update({ status: 'approved' })
-        .where({ manager_id: user.user_id });
-      await knex('tour_finance_managers')
-        .insert({ tour_id: id, status: 'pending' });
-    } else {
-      await knex('tour_finance_managers')
-        .update({ status: 'approved' })
-        .where({ tour_id: id });
-    }
-    return { status: 'success' };
-  }
-
-  reject = async (id, user) => {
-    if (user.role_id === User.MANAGER_ROLE_ID) {
-      await knex('tour_managers')
-        .update({ status: 'rejected' })
+        .update({ status: status })
         .where({ manager_id: user.user_id, tour_id: id });
+      if (status === 'approved') {
+        await knex('tour_finance_managers')
+          .insert({ tour_id: id, status: 'pending' });
+      }
     } else {
       await knex('tour_finance_managers')
-        .update({ status: 'rejected' })
-        .where({ tour_id: id });
-    }
-    return { status: 'success' };
-  }
-
-  inquire = async (id, user) => {
-    if (user.role_id === User.MANAGER_ROLE_ID) {
-      await knex('tour_managers')
-        .update({ status: 'requesting_information' })
-        .where({ manager_id: user.user_id, tour_id: id });
-    } else {
-      await knex('tour_finance_managers')
-        .update({ status: 'requesting_information' })
+        .update({ status: status })
         .where({ tour_id: id });
     }
     return { status: 'success' };

@@ -6,6 +6,17 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    &:nth-child(3) {
+      display: block;
+      text-align: right;
+      margin-top: 24px;
+      overflow: visible;
+      border-top: 2px solid #673ab7 !important;
+      padding: 20px 24px;
+      button {
+        margin-right: 8px;
+      }
+    }
   }
 
   ::ng-deep .mat-stepper-horizontal, .col-12 {
